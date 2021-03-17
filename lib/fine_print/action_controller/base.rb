@@ -46,17 +46,15 @@ module FinePrint
         blk = options[:redirect_to_contracts_proc] || \
               FinePrint.config.redirect_to_contracts_proc
 
-        # Use action_interceptor to save the current url
-        store_url key: :fine_print_return_to
+        return_url = request.get? ? request.fullpath : request.referer
 
-        instance_exec user, contracts, &blk
+        instance_exec user, contracts, return_url, &blk
       end
 
-      # Accepts no arguments
-      # Redirects the user back to the url they were at before
-      # `fine_print_redirect` redirected them
-      def fine_print_return
-        redirect_back key: :fine_print_return_to
+      # Accepts return_url to redirect back to
+      # Redirects the user back to given url
+      def fine_print_return(return_url)
+        redirect_back return_url
       end
 
       protected

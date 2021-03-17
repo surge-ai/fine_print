@@ -1,4 +1,3 @@
-require 'action_interceptor'
 require 'fine_print/action_controller/base'
 
 module FinePrint
