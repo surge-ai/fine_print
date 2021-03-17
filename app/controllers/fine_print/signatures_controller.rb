@@ -9,6 +9,7 @@ module FinePrint
 
     def index
       @signatures = @contract.signatures
+      @return_url = params[:return_url]
     end
 
     def new
@@ -17,6 +18,7 @@ module FinePrint
 
     def create
       @signature = Signature.new
+      @return_url = params[:return_url] || "/"
 
       unless params[:signature_accept]
         @signature.errors.add(
@@ -30,7 +32,7 @@ module FinePrint
       @signature.contract = @contract
 
       if @signature.save
-        fine_print_return
+        fine_print_return @return_url
       else
         render action: 'new', alert: merge_errors_for(@signature)
       end

@@ -38,18 +38,24 @@ FinePrint.configure do |config|
   # Controller Configuration
   # Can be set in this initializer or passed as options to `fine_print_require`
 
-  # Proc called with a user and an array of contracts as arguments and a
-  # controller as self. This proc is called when a user tries to access a
+  # Proc called with a user, an array of contracts and return URL as arguments
+  # and a controller as self. This proc is called when a user tries to access a
   # resource protected by FinePrint, but has not signed all the required
   # contracts. Should redirect the user, render or raise an exception.
   # The `contracts` argument contains the contracts that need to be signed.
   # The default redirects users to FinePrint's contract signing views.
   # The `fine_print_return` method can be used to return from this redirect.
-  # Default: ->(user, contracts) do
-  #            redirect_to fine_print.new_contract_signature_path(contract_id: contracts.first.id)
+  # Default: ->(user, contracts, return_url) do
+  #            redirect_to fine_print.new_contract_signature_path(
+  #              contract_id: contracts.first.id,
+  #              return_url: return_url
+  #            )
   #          end
-  config.redirect_to_contracts_proc = ->(user, contracts) do
-    redirect_to fine_print.new_contract_signature_path(contract_id: contracts.first.id)
+  config.redirect_to_contracts_proc = ->(user, contracts, return_url) do
+    redirect_to fine_print.new_contract_signature_path(
+      contract_id: contracts.first.id,
+      return_url: return_url
+    )
   end
 
   # Proc called whenever a contract is published, useful if the application
