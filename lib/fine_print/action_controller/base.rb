@@ -54,7 +54,7 @@ module FinePrint
       # Accepts return_url to redirect back to
       # Redirects the user back to given url
       def fine_print_return(return_url)
-        redirect_back fallback_location: return_url
+        redirect_to return_url
       end
 
       protected
